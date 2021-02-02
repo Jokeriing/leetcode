@@ -1,0 +1,21 @@
+503. 下一个更大元素 II
+
+我的题解:
+class Solution:
+    def nextGreaterElements(self, nums: List[int]) -> List[int]:
+        stack = []
+        nums += nums
+        n = len(nums)
+        ans = [-1] * n
+
+        for i in range(n):
+            while stack and stack[-1][1] < nums[i]:
+                cur = stack.pop()
+                ans[cur[0]] = nums[i]
+            stack.append((i, nums[i]))
+        
+        return ans[:n//2]  
+
+开始看到此题立即想到了单调栈，但是数组中最大值之前的结果都是正确的，之后的结果会涉及到循环数组；
+一开始简单的认为后面的数下一个大值都是最大值，但是最大值出现会导致栈前面部分清空，所以不能直接赋值；
+之后又想到可以将数组延长一倍，结果正确。
